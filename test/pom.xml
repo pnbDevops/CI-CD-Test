@@ -9,7 +9,7 @@
     <description>Minimal Maven project for SonarQube connectivity test</description>
 
     <properties>
-        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.host.url>http://172.29.184.52:9000</sonar.host.url>
         <sonar.scm.disabled>true</sonar.scm.disabled>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
