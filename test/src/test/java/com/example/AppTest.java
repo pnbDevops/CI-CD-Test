@@ -1,11 +1,8 @@
 package com.example;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
+// Simple test class - just for SonarQube demonstration
 public class AppTest {
-    @Test
-    public void testMain() {
-        assertTrue(true);
+    public void demoTest() {
+        System.out.println("SonarQube test demo");
     }
 }
