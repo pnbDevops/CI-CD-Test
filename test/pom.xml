@@ -7,6 +7,22 @@
     <version>1.0-SNAPSHOT</version>
     <name>SonarQube Test Project</name>
     <description>Minimal Maven project for SonarQube connectivity test</description>
+
+    <properties>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.scm.disabled>true</sonar.scm.disabled>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
