@@ -1,0 +1,41 @@
+//A simple jenkins pipeline script to test the connection to SonarQube with the credentials configured in the Jenkins
+//We use a simple docker image with maven in it and mount the docker socket to access the host's Docker daemon
+// Installed the sonarqube plugin and sonar auth token in jenkins
+// I don't have any java code to test, so I will just run the maven command to test the connection to SonarQube
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.6.3-jdk-11'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
+    environment {
+        // Set the SonarQube server URL (update as needed)
+        SONAR_HOST_URL = 'http://localhost:9000'
+        // Set the SonarQube authentication token (update with your credentials ID)
+        SONAR_AUTH_TOKEN = credentials('sonarqube')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo "Building project..."'
+                sh 'mvn clean package'
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
+                    sh 'echo "Running SonarQube scanner..."'
+                    sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
+                    // to debug if the sonar scanner is not working, you can print the sonar properties
+                    sh 'cat ~/.m2/sonar.properties || true'
+                }
+            }
+        }
+        stage('Post Analysis') {
+            steps {
+                sh 'echo "SonarQube analysis completed. Check the SonarQube dashboard for results."'
+            }
+        }
+    }
+}
