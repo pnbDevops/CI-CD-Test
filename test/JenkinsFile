@@ -10,8 +10,8 @@ pipeline {
         }
     }
     environment {
-        // Set the SonarQube server URL (update as needed)
-        SONAR_HOST_URL = 'http://localhost:9000'
+        // Set the SonarQube server URL with WSL IP address
+        SONAR_HOST_URL = 'http://172.29.184.52:9000'
         // Set the SonarQube authentication token (update with your credentials ID)
         SONAR_AUTH_TOKEN = credentials('sonarqube')
     }
