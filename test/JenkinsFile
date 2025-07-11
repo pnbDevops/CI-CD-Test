@@ -18,17 +18,21 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Building project..."'
-                sh 'mvn clean package'
+                dir('test') {
+                    sh 'echo "Building project..."'
+                    sh 'mvn clean package'
+                }
             }
         }
         stage('SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
-                    sh 'echo "Running SonarQube scanner..."'
-                    sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
-                    // to debug if the sonar scanner is not working, you can print the sonar properties
-                    sh 'cat ~/.m2/sonar.properties || true'
+                dir('test') {
+                    withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
+                        sh 'echo "Running SonarQube scanner..."'
+                        sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
+                        // to debug if the sonar scanner is not working, you can print the sonar properties
+                        sh 'cat ~/.m2/sonar.properties || true'
+                    }
                 }
             }
         }
